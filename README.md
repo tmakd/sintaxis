@@ -12,6 +12,7 @@ de los lenguajes - UTN FRBA.
 **Argv[]**: Vector de Char con los argumentos que se le pasan al programa.
 
 *Ejemplo*:
+
 -- En Unix -- 
 
 > ./scanner inicio
