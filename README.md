@@ -4,7 +4,7 @@ Compilador Micro
 Estamos creando el analizador Lexico (Scanner), analizador Sintactico (Parser) y analizador Semantico (Rutinas Semanticas) para la materia Sintaxis y Semantica
 de los lenguajes - UTN FRBA.
 
-== SCANNER ==
+## == SCANNER ==
 #Input - Parametros de entrada 
 
 ArgC : cantidad de argumentos que se le pasa al programa comando cuando se lo invoca. El nombre del programa es parte de los argumentos que se pasan.
