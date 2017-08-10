@@ -55,18 +55,89 @@ El programa verifica mediante dos sentencias if si el comando se ejecuta con la 
 
 ### Output - Parametros de salida
 
-Se reliza un switch, analizando la primera letra del primer parametro. Se imprime en cada caso el token correspondiente.
+Se crea una funcion auxiliar llamada **BuscarToken**, la cual recibe un vector de char, busca en la tabla hash (con la funcion strcmp) y devuelve un valor tipo token.
+
+#### BuscarToken
+
+Primero definimos el registro en el cual va a estar la tabla hash. Como se ve es un campo de tipo char (el que busca) y otro de tipo token (el que devuelve).
+
+```C++
+  static struct registro_tabla {
+        char *key;
+        token tokenactual;
+    }
+```
+
+Segundo, completamos la tabla con los registros de tipo registro_tabla
+
+```C++
+tabla[] = {
+        { "inicio", INICIO },
+        { "fin", FIN },
+        { "leer", LEER },
+        { "escribir", ESCRIBIR },
+        { "ID", ID },
+        { "CONSTANTE", CONSTANTE },
+        { "(", PARENIZQUIERDO },
+        { ")", PARENDERECHO },
+        { ";", PUNTOYCOMA },
+        { ",", COMA },
+        { ":=", ASIGNACION },
+        { "+", SUMA },
+        { "-", RESTA },
+        { "FDT", FDT },
+        { NULL , ERROR}
+    };
+```
+
+Quedaria la tabla de la siguiente manera:
+
+|          tabla                |
+|:-----------------------------:|
+| String        | TOKEN         | 
+| ------------- |:-------------:| 
+| "inicio"      | INICIO        | 
+| "fin"         | FIN           |
+| "leer"        | LEER          |
+| "escribir"    | ESCRIBIR      |
+| "ID"          | ID            |
+| "("           | PARENIZQUIERDO|
+| ")"           | PARENDERECHO  |
+| ";"           | PUNTOYCOMA    |
+| ":="          | ASIGNACION    |
+| "+"           | SUMA          |
+| "-"           | RESTA         |
+| "FDT"         | FDT           |
+| **NULL**      | ERROR         |
+
+
+
+Por ultimo, definimos un puntero p, de tipo registro_tabla; y lo hacemos apuntar a tabla (al primer registro). 
+
+Luego hacemos un bucle For, recorriendo la tabla, preguntando si llego al final de la tabla, o si encontro (cuando strcmp da cero) el token. Devolvemos el tokenactual.
+
+Si llego al final de la tabla, el token es ERROR.
+
+```C++
+struct registro_tabla *p = tabla;
+    for(; p->key != NULL && strcmp(p->key, s) != 0; ++p);
+    return p->tokenactual;
+```
 
 #### Comentarios
 
-Podemos crear para no tomar la primer letra del primer parametro, una tabla hash (que en el apunte llama tabla de simbolos) para identificar cada string de token con un valor entero (que lo tomaria el switch), porque el switch solo funciona para enteros.
+**Tomy**: Podemos crear para no tomar la primer letra del primer parametro, una tabla hash (que en el apunte llama tabla de simbolos) para identificar cada string de token con un valor entero (que lo tomaria el switch), porque el switch solo funciona para enteros.
 
 ## LISTA DE TOKENS
+
+Definimos con un typedef enum el tipo de dato token
 
 + INICIO
 + FIN
 + LEER
 + ESCRIBIR
++ ID 
++ CONSTANTE
 + ASIGNAR
 + PARENIZQUIERDO
 + PARENDERECHO
@@ -74,3 +145,5 @@ Podemos crear para no tomar la primer letra del primer parametro, una tabla hash
 + PUNTOYCOMA
 + SUMA
 + RESTA
++ FDT 
++ ERROR
