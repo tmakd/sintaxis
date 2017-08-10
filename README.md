@@ -57,6 +57,10 @@ El programa verifica mediante dos sentencias if si el comando se ejecuta con la 
 
 Se reliza un switch, analizando la primera letra del primer parametro. Se imprime en cada caso el token correspondiente.
 
+#### Comentarios
+
+Podemos crear para no tomar la primer letra del primer parametro, una tabla hash (que en el apunte llama tabla de simbolos) para identificar cada string de token con un valor entero (que lo tomaria el switch), porque el switch solo funciona para enteros.
+
 ## LISTA DE TOKENS
 
 + INICIO
