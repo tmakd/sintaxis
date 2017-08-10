@@ -14,6 +14,7 @@ int main(int argc, char * argv[])
 	}
 
 	switch(argv[1][0]){
+		//
 		case 'i' :
 			printf("INICIO\n");
 			break;
