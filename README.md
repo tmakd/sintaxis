@@ -13,9 +13,11 @@ de los lenguajes - UTN FRBA.
 
 *Ejemplo*:
 -- En Unix -- 
+
 > ./scanner inicio
 
 -- En Windows --
+
 > scanner.exe inicio
 
 | Variable      | Valor         | 
