@@ -41,8 +41,11 @@ de los lenguajes - UTN FRBA.
 El programa verifica mediante dos sentencias if si el comando se ejecuta con la cantidad de parametros correctos, e indica el error correspondiente.
 
 > if(argc == 1){
+
 >		printf("Debe ingresar dos nombres de archivo\n");
+
 >		return -1;
+
 >	}
 
 > if(argc != 2){
