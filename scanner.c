@@ -4,7 +4,6 @@
 
 int main(int argc, char * argv[])
 {
-	
 	if(argc == 1){
 		printf("Debe ingresar dos nombres de archivo\n");
 		return -1;
@@ -13,38 +12,39 @@ int main(int argc, char * argv[])
 		printf("Numero incorrecto de argumentos\n");
 		return -2;
 	}
-	switch(argv[1]){
-		case "inicio" :
+
+	switch(argv[1][0]){
+		case 'i' :
 			printf("INICIO!\n");
 			break;
-		case "fin" :
+		case 'f' :
 			printf("FIN!\n");
 			break;
-		case "leer" :
+		case 'l' :
 			printf("LEER!\n");
 			break;
-		case "escribir" :
+		case 'e' :
 			printf("ESCRIBIR!\n");
 			break;
-		case "asignacion" :
+		case ':' :
 			printf("ASIGNAR!\n");
 			break;
-		case "parenizquierdo" :
+		case '(' :
 			printf("PARENIZQUIERDO!\n");
 			break;
-		case "parenderecho" :
+		case ')' :
 			printf("PARENDERECHO!\n");
 			break;
-		case "coma" :
+		case ',' :
 			printf("COMA!\n");
 			break;
-		case "puntoycoma" :
+		case ';' :
 			printf("PUNTOYCOMA!\n");
 			break;
-		case "suma" :
+		case '+' :
 			printf("SUMA!\n");
 			break;
-		case "resta" :
+		case '-' :
 			printf("RESTA!\n");
 			break;
 		default:
