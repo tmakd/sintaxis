@@ -13,10 +13,10 @@ de los lenguajes - UTN FRBA.
 
 *Ejemplo*:
 -- En Unix -- 
-./scanner inicio
+> ./scanner inicio
 
 -- En Windows --
-scanner.exe inicio
+> scanner.exe inicio
 
 argc: 2
 argv[0] = scanner
