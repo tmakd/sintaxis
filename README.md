@@ -94,7 +94,7 @@ Quedaria la tabla de la siguiente manera:
 
 
 | String        | TOKEN         | 
-| ------------- |:-------------:| 
+|:-------------:|:-------------:| 
 | "inicio"      | INICIO        | 
 | "fin"         | FIN           |
 | "leer"        | LEER          |
