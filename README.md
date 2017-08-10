@@ -22,11 +22,11 @@ argc: 2
 argv[0] = scanner
 argv[1] = inicio
 
-###Verificaciones
+### Verificaciones
 
 El programa verifica mediante dos sentencias if si el comando se ejecuta con la cantidad de parametros correctos, e indica el error correspondiente.
 
-###Output - Parametros de salida
+### Output - Parametros de salida
 
 Se reliza un switch, analizando la primera letra del primer parametro. Se imprime en cada caso el token correspondiente.
 
