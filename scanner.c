@@ -15,40 +15,40 @@ int main(int argc, char * argv[])
 
 	switch(argv[1][0]){
 		case 'i' :
-			printf("INICIO!\n");
+			printf("INICIO\n");
 			break;
 		case 'f' :
-			printf("FIN!\n");
+			printf("FIN\n");
 			break;
 		case 'l' :
-			printf("LEER!\n");
+			printf("LEER\n");
 			break;
 		case 'e' :
-			printf("ESCRIBIR!\n");
+			printf("ESCRIBIR\n");
 			break;
 		case ':' :
-			printf("ASIGNAR!\n");
+			printf("ASIGNAR\n");
 			break;
 		case '(' :
-			printf("PARENIZQUIERDO!\n");
+			printf("PARENIZQUIERDO\n");
 			break;
 		case ')' :
-			printf("PARENDERECHO!\n");
+			printf("PARENDERECHO\n");
 			break;
 		case ',' :
-			printf("COMA!\n");
+			printf("COMA\n");
 			break;
 		case ';' :
-			printf("PUNTOYCOMA!\n");
+			printf("PUNTOYCOMA\n");
 			break;
 		case '+' :
-			printf("SUMA!\n");
+			printf("SUMA\n");
 			break;
 		case '-' :
-			printf("RESTA!\n");
+			printf("RESTA\n");
 			break;
 		default:
-			printf("DEFAULT!\n");
+			printf("DEFAULT\n");
 			break;
 	}
 
