@@ -18,9 +18,12 @@ de los lenguajes - UTN FRBA.
 -- En Windows --
 > scanner.exe inicio
 
-argc: 2
-argv[0] = scanner
-argv[1] = inicio
+| Variable      | Valor         | 
+| ------------- |:-------------:| 
+| argc          | 2             | 
+| argv[0]       | scanner       |
+| argv[1]       | inicio        |
+
 
 ### Verificaciones
 
