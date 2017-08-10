@@ -13,6 +13,14 @@ de los lenguajes - UTN FRBA.
 
 *Ejemplo*:
 
+**Para compilar**
+
+ -- Compilador GCC  --
+
+> gcc -ansi -o scanner scanner.c
+
+**Para ejecutar**
+
 -- En Unix -- 
 
 > ./scanner inicio
@@ -31,6 +39,17 @@ de los lenguajes - UTN FRBA.
 ### Verificaciones
 
 El programa verifica mediante dos sentencias if si el comando se ejecuta con la cantidad de parametros correctos, e indica el error correspondiente.
+
+> if(argc == 1){
+>		printf("Debe ingresar dos nombres de archivo\n");
+>		return -1;
+>	}
+
+> if(argc != 2){
+>		printf("Numero incorrecto de argumentos\n");
+>		return -2;
+>	}
+
 
 ### Output - Parametros de salida
 
