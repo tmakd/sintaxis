@@ -92,8 +92,7 @@ tabla[] = {
 
 Quedaria la tabla de la siguiente manera:
 
-|          tabla                |
-|:-----------------------------:|
+
 | String        | TOKEN         | 
 | ------------- |:-------------:| 
 | "inicio"      | INICIO        | 
@@ -109,7 +108,6 @@ Quedaria la tabla de la siguiente manera:
 | "-"           | RESTA         |
 | "FDT"         | FDT           |
 | **NULL**      | ERROR         |
-
 
 
 Por ultimo, definimos un puntero p, de tipo registro_tabla; y lo hacemos apuntar a tabla (al primer registro). 
