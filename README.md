@@ -177,7 +177,7 @@ Mediante una llamada a scanner, pasandole **argv[1]**, el cual es **el argumento
 
 ```C++
   tokenDevuelto = scanner(argv[1]);
-``
+```
 ### Analisis del tokenDevuelto
 
 Luego para analizar cual es el tokenDevuelto, utilizamos un switch con todos los tipo token que definimos, e imprimimos por pantalla
