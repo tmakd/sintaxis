@@ -56,14 +56,40 @@ El retorno de la funcion (token) es de tipo enum, y este tipo esta definido en e
 
 > **STATIC** Las variables static **NO** se destruyen cuando termina la funcion
 
+>  **TYPEDEF** C proporciona una facilidad llamada typedef para crear nuevos tipos de datos (Kernighan)
+
+Ejemplo
+
+```C++
+typedef int Longitud;
+```
+> Hace del nombre **Longitud** un sinonimo de int. El tipo Longitud puede emplearse en dereclaraciones, casts, etc
+> de la misma manera que lo podria ser **int**.
+
+>  **ENUM** : La constante de enumeracion. Una enueracion es una lista de valores enteros constantes.
+> El primer nombre en un enum tiene valor 0, el siguiente 1, y asi sucesivamente, a menos que sean
+> especificados valores explicitos. Si no todos los valores son especificados, los valores no especificados
+> continuan la progresion a partir del ultimo valor que si lo fue. (Kernighan Pag. 44/45)
+
+Ejemplo
+
+```C++
+enum months {  ENE = 1, FEB, MAR, ABR, MAY, JUN, JUL
+               AGO, SEP, OCT, NOV, DIC};
+```
+> FEB es 2, MAR es 3, etc...
+
+#### Tabla del AFD
 
 |        |   a   |   b   |
 | ------ |:-----:|:-----:|
 | 0-     | 1     | **4** |
-| 1      | **4** | **4** |
+| 1      | **4** |   2   |
 | 2      | 1     |   3   |
 | 3      | **4** |   3   |
 | **4**  | **4** | **4** |
+
+> el estado **4** es el estado de rechazo
 
 ```C++
  int automata (char * s)
@@ -89,7 +115,7 @@ else return 0
  }
 ```
 
-
+## Nuestro AFD
 ### Verificaciones Necesarias del Programa Principal
 
 El programa verifica mediante dos sentencias if si el comando se ejecuta con la cantidad de parametros correctos, e indica el error correspondiente.
@@ -107,9 +133,50 @@ El programa verifica mediante dos sentencias if si el comando se ejecuta con la 
 	}
 ```
 
-### Tipo ENUM
+### Funcion Scanner
 
- ****
+#### Tabla de transiciones del AFD
+
+|        |   L   |   D   |   +   |   -   |   (   |   )   |   ,   |   ;   |   :   |   =   |   fdt   |   sp   |  otro |
+| ------ |:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-------:|:------:|:-----:|
+| 0-     |   1   |   3   |   5   |   6   |   7   |   8   |   9   |   10  |   11  |   14  |   13    |   0    |   14  |
+| 1      |   1   |   1   |   2   |   2   |   2   |   2   |   2   |   2   |   2   |   2   |   2     |   2    |   2   |
+| 2+     |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14    |   14   |   14  |
+| 3      |   4   |   3   |   4   |   4   |   4   |   4   |   4   |   4   |   4   |   4   |   4     |   4    |   4   |
+| 4+     |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14    |   14   |   14  |
+| 5+     |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14    |   14   |   14  |
+| 6+     |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14    |   14   |   14  |
+| 7+     |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14    |   14   |   14  |
+| 8+     |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14    |   14   |   14  |
+| 9+     |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14    |   14   |   14  |
+| 10+    |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14    |   14   |   14  |
+| 11     |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   12  |   14    |   14   |   14  |
+| 12+    |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14    |   14   |   14  |
+| 13+    |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14    |   14   |   14  |
+| 14+    |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14  |   14    |   14   |   14  |
+
+
+
+
+Pasado a codigo, seria algo similar a lo siguiente:
+
+```C++
+int tabla[15][13]={  { 1, 3, 5, 6, 7, 8, 9,10,11,14,13, 0,14 },
+                     { 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 },
+                     {14,14,14,14,14,14,14,14,14,14,14,14,14 },
+                     { 4, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 },
+                     {14,14,14,14,14,14,14,14,14,14,14,14,14 },
+                     {14,14,14,14,14,14,14,14,14,14,14,14,14 },
+                     {14,14,14,14,14,14,14,14,14,14,14,14,14 },
+                     {14,14,14,14,14,14,14,14,14,14,14,14,14 },
+                     {14,14,14,14,14,14,14,14,14,14,14,14,14 },
+                     {14,14,14,14,14,14,14,14,14,14,14,14,14 },
+                     {14,14,14,14,14,14,14,14,14,14,14,14,14 },
+                     {14,14,14,14,14,14,14,14,14,12,14,14,14 },
+                     {14,14,14,14,14,14,14,14,14,14,14,14,14 },
+                     {14,14,14,14,14,14,14,14,14,14,14,14,14 },
+                     {14,14,14,14,14,14,14,14,14,14,14,14,14 }};
+```
 
 
 #### Comentarios
