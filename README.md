@@ -35,8 +35,62 @@ de los lenguajes - UTN FRBA.
 | argv[0]       | scanner       |
 | argv[1]       | inicio        |
 
+### Consignas 
 
-### Verificaciones
+#### Tema: Desarrollo de un Scanner simplificado para el Lenguaje Micro.
+
+**Fecha de entrega:**  Primera semana de Setiembre
+
+Tal como se explico en clase, la primera parte del TP consiste en desarrollar un programa comando (PC), que recibe como unico argumento un lexema del lenguaje micro. Obviamente este lexema puede ser un identificador, un palabra reservada, un operador, o cualquier otro lexema posible en Lenguaje Micro. Noten que cada lexema puede ser una cadena de 1 o mas caracteres. El PC debe realizar la validaciones necesarias y pasar la cadena a una funcion cuyo prototipo es
+
+```C++
+token scanner(char * s);
+```
+
+El retorno de la funcion (token) es de tipo enum, y este tipo esta definido en el Libro de Muchnik; deben investigar que significa y como se define un tipo enum en el libro de Kernighan. La funcion scanner realiza la implementacion de un AFD, utilizando la Tabla de Transiciones que se encuentra en el Libro II de Muchnik; su estructura es similar a la funcion automata que se dio en clase. De acuerdo al retorno de la funcion scanner, el programa comando debera informar por pantalla a que token pertenece el lexema que entra como argumento del PC.
+
+
+
+
+### Explicacion y Ejemplo de aplicacion de un AFD en lenguaje ANSI C
+
+> **STATIC** Las variables static **NO** se destruyen cuando termina la funcion
+
+
+|        |   a   |   b   |
+| ------ |:-----:|:-----:|
+| 0-     | 1     | **4** |
+| 1      | **4** | **4** |
+| 2      | 1     |   3   |
+| 3      | **4** |   3   |
+| **4**  | **4** | **4** |
+
+```C++
+ int automata (char * s)
+ {
+ static int tabla = {
+                        {1,4},
+                        {4,2},
+                        {1,3},
+                        {4,3},
+                        {4,4}
+ };
+ int estado = 0;
+ char c = s[50];
+ int i = 0;
+ while (s[i] != '/0')
+ {
+  estado = tabla[estado][columna(c)];
+  i++;
+  c = s[i];
+ }
+if(estado == 3) return 1;
+else return 0
+ }
+```
+
+
+### Verificaciones Necesarias del Programa Principal
 
 El programa verifica mediante dos sentencias if si el comando se ejecuta con la cantidad de parametros correctos, e indica el error correspondiente.
 
@@ -53,78 +107,14 @@ El programa verifica mediante dos sentencias if si el comando se ejecuta con la 
 	}
 ```
 
-### Output - Parametros de salida
+### Tipo ENUM
 
-Se crea una funcion auxiliar llamada **BuscarToken**, la cual recibe un vector de char, busca en la tabla hash (con la funcion strcmp) y devuelve un valor tipo token.
+ ****
 
-#### BuscarToken
-
-Primero definimos el registro en el cual va a estar la tabla hash. Como se ve es un campo de tipo char (el que busca) y otro de tipo token (el que devuelve).
-
-```C++
-  static struct registro_tabla {
-        char *key;
-        token tokenactual;
-    }
-```
-
-Segundo, completamos la tabla con los registros de tipo registro_tabla
-
-```C++
-tabla[] = {
-        { "inicio", INICIO },
-        { "fin", FIN },
-        { "leer", LEER },
-        { "escribir", ESCRIBIR },
-        { "ID", ID },
-        { "CONSTANTE", CONSTANTE },
-        { "(", PARENIZQUIERDO },
-        { ")", PARENDERECHO },
-        { ";", PUNTOYCOMA },
-        { ",", COMA },
-        { ":=", ASIGNACION },
-        { "+", SUMA },
-        { "-", RESTA },
-        { "FDT", FDT },
-        { NULL , ERROR}
-    };
-```
-
-Quedaria la tabla de la siguiente manera:
-
-
-| String        | TOKEN         | 
-|:-------------:|:-------------:| 
-| "inicio"      | INICIO        | 
-| "fin"         | FIN           |
-| "leer"        | LEER          |
-| "escribir"    | ESCRIBIR      |
-| "ID"          | ID            |
-| "("           | PARENIZQUIERDO|
-| ")"           | PARENDERECHO  |
-| ";"           | PUNTOYCOMA    |
-| ":="          | ASIGNACION    |
-| "+"           | SUMA          |
-| "-"           | RESTA         |
-| "FDT"         | FDT           |
-| **NULL**      | ERROR         |
-
-
-Por ultimo, definimos un puntero p, de tipo registro_tabla; y lo hacemos apuntar a tabla (al primer registro). 
-
-Luego hacemos un bucle For, recorriendo la tabla, preguntando si llego al final de la tabla, o si encontro (cuando strcmp da cero) el token. Devolvemos el tokenactual.
-
-Si llego al final de la tabla, el token es ERROR.
-
-```C++
-struct registro_tabla *p = tabla;
-    for(; p->key != NULL && strcmp(p->key, s) != 0; ++p);
-    return p->tokenactual;
-```
 
 #### Comentarios
 
-**Tomy**: Podemos crear para no tomar la primer letra del primer parametro, una tabla hash (que en el apunte llama tabla de simbolos) para identificar cada string de token con un valor entero (que lo tomaria el switch), porque el switch solo funciona para enteros.
+
 
 ## LISTA DE TOKENS
 
