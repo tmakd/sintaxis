@@ -116,6 +116,45 @@ else return 0
 ```
 
 ## Nuestro AFD
+### Tipo de dato **token**
+
+A continuacion creamos el tipo de dato token como un enum.
+> Lo definimos como un enum, porque lo vamos a utilizar en un switch, y no acepta strings
+
+```C++
+typedef enum
+{INICIO, FIN, LEER, ESCRIBIR, ID, CONSTANTE, PARENIZQUIERDO,
+ PARENDERECHO, PUNTOYCOMA, COMA, ASIGNACION, SUMA, RESTA, FDT, ERRORLEXICO
+} token;
+```
+
+### BUFFER
+
+Creamos un Buffer, el cual es un arreglo, que va almacenando los caracteres hasta encontrar un espacio o fin de linea.
+En el se encuentra el **LEXEMA** el cual vamos a analizar en el switch
+
+Definimos previamente un tamanio maximo para el buffer
+
+```C++
+  #define TAMLEX 32+1
+```
+Luego en la seccion de **declaraciones** , creamos el arreglo buffer de tipo char y tamanio TAMLEX
+> la ventaja de definirlo de esta manera es que si nos piden que cambie el tamanio del buffer, solamente lo 
+> cambiamos arriba en la seccion de definiciones de constantes. 
+
+```C+
+char buffer[TAMLEX];
+```
+## Programa Principal
+### Declaraciones Necesarias del Programa Principal
+
+Por ahora la unica declaracion que hicimos fue tokenDevuelto. Es una variable de tipo token, en la cual almacenaremos
+lo que devuelve la funcion **scanner**
+
+```C++
+token tokenDevuelto;
+```
+
 ### Verificaciones Necesarias del Programa Principal
 
 El programa verifica mediante dos sentencias if si el comando se ejecuta con la cantidad de parametros correctos, e indica el error correspondiente.
@@ -201,4 +240,4 @@ Definimos con un typedef enum el tipo de dato token
 + SUMA
 + RESTA
 + FDT 
-+ ERROR
++ ERRORLEXICO
