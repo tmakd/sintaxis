@@ -370,7 +370,7 @@ case identificador (2) mediante un if con ayuda de la funcion strcmp, retornamos
 En caso de los identificadores y constantes, en caso de que la columna quede en fdt (col 11), se debe cargar el caracter de fin de linea "/0".
 
 
-###Funciones Auxiliares
+### Funciones Auxiliares
 
 #### Estado Final
 
