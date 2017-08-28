@@ -34,16 +34,16 @@ int main(int argc, char * argv[])
   switch(tokenDevuelto){
     
     case INICIO :
-      printf("el token fue: INICIO\n");
+      printf("el token fue: PALABRARESERVADA (->inicio)\n");
       break;
     case FIN :
-      printf("el token fue: FIN\n");
+      printf("el token fue: PALABRARESERVADA (->fin)\n");
       break;
     case LEER :
-      printf("el token fue: LEER\n");
+      printf("el token fue: PALABRARESERVADA (->leer)\n");
       break;
     case ESCRIBIR :
-      printf("el token fue: ESCRIBIR\n");
+      printf("el token fue: PALABRARESERVADA (->escribir)\n");
       break;
     case ID :
       printf("el token fue: ID\n");
