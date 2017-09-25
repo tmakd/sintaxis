@@ -450,3 +450,19 @@ Definimos con un typedef enum el tipo de dato token
                 PARENIZQUIERDO <expresion> PARENDERECHO
   <operadorAditivo> -> uno de SUMA RESTA
 ```
+
+Utilizamos una tecnica de analisis sintactico muy conocida llamada **ANALISIS SINTACTICO DESCENDENTE RECURSIVO (ASDR)**
+
+Utiliza rutinas, que pueden ser recursivas, cuya ejecucion va construyendo un arbol de analisis sintactico (AAS) para la secuencia de entrada
+formada por tokens que debe reconocer.
+
+> Un arbol de analisis sintactico parte del axiona de una GIC y representa la derivacion de una construccion.
+
+Tiene las siguientes propiedades:
+
+ + La raiz del AAS esta etiquetada con el axioma de la GIC
+ + Cada hoja esta etiquetada con un token. Si se leen de izquierda a derecha, las hojas representan la construccion derivada.
+
+La idea basica del ASDR es que cada noterminal de la Gramatica Sintactica tiene asociado una **rutina** de analisis sintactico que puede reconocer 
+cualquier secuencia de tokens generada por ese noterminal. Esta rutina se implementa como un procedimiento (lo llamamos **PAS** - **P**rocedimiento de **A**nalisis **S**intactico).
+
