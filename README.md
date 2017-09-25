@@ -451,6 +451,8 @@ Definimos con un typedef enum el tipo de dato token
   <operadorAditivo> -> uno de SUMA RESTA
 ```
 
+#### Procedimiento de Analisis Sintactico (PAS)
+
 Utilizamos una tecnica de analisis sintactico muy conocida llamada **ANALISIS SINTACTICO DESCENDENTE RECURSIVO (ASDR)**
 
 Utiliza rutinas, que pueden ser recursivas, cuya ejecucion va construyendo un arbol de analisis sintactico (AAS) para la secuencia de entrada
