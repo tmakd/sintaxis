@@ -14,6 +14,16 @@ typedef enum
 /* declaraciones */
 token scanner(char * s);
 char buffer[TAMLEX];
+/*Definimos los PAS*/
+void Objetivo (void);
+void Programa (void);
+void ListaSentencias (void);
+void Sentencia (void);
+void Expresion (void);
+void OperadorAditivo (void);
+void Chequear(char * s);
+  
+
 
 int main(int argc, char * argv[]) 
 {
@@ -166,4 +176,102 @@ int columna(int c)
  if ( isspace(c) ) return 11;
  return 12;
 }
+
+void Objetivo (void) {
+/* <objetivo> -> <programa> FDT */
+  Programa();
+  Match(FDT);
+}
+
+void Programa (void){
+  /*<programa> -> INICIO <listaSentencias> FIN*/
+  Inicio();
+  listaSentencias();
+  Match(FIN);
+}
+void ListaSentencias (void) {
+/* <listaSentencias> -> <sentencia> {<sentencia>} */
+Sentencia(); /* la primera de la lista de sentencias */ 
+while (1) { /* un ciclo indefinido */
+  switch (ProximoToken()) {
+    case ID: case LEER: case ESCRIBIR: /* detectó token correcto */
+        Sentencia(); /* procesa la secuencia opcional */
+        break;
+      default:
+        return;
+      } /* fin switch */
+} 
+}
+void Sentencia(void) {
+   TOKEN tok = ProximoToken();
+   switch (tok) {
+    case ID: /* <sentencia> -> ID := <expresion>; */
+      Match(ID); 
+      Match(Asignación>); 
+      Expresion(); 
+      Match(PUNTOYCOMA); 
+      break;
+    case LEER: /* <sentencia> -> LEER ( <listaIdentificadores> ); */ 
+      Match(LEER); 
+      Match(PARENIZQUIERDO); 
+      ListaIdentificadores(); 
+      Match(PARENDERECHO); 
+      Match(PUNTOYCOMA);
+      break;
+    case ESCRIBIR: /* <sentencia> -> ESCRIBIR (<listaExpresiones>); */ 
+      Match(ESCRIBIR); 
+      Match(PARENIZQUIERDO); 
+      ListaExpresiones(); 
+      Match(PARENDERECHO); 
+      Match(PUNTOYCOMA);
+      break;
+    default:
+      ErrorSintactico(tok); 
+      break;
+} }
+
+void Expresion (void) {
+/* <expresion> -> <primaria> {<operadorAditivo> <primaria>} */
+  TOKEN t;
+  Primaria();
+  for (t = ProximoToken(); t == SUMA || t == RESTA; t = ProximoToken()) {
+     OperadorAditivo();  
+     Primaria();
+   }
+}
+
+void OperadorAditivo (void) {
+/* <operadorAditivo> -> uno de SUMA RESTA */
+   TOKEN t = ProximoToken();
+   if (t == SUMA || t == RESTA)
+      Match(t);
+   else
+      ErrorSintactico(t);
+}
+void Chequear (string s) {
+  if (! Buscar(s)) { /* ¿la cadena está en la Tabla de Símbolos? No: */
+    Colocar(s); /* almacenarla, es el nombre de una variable */
+    Generar("Declara", s, "Entera", ""); /* genera la instrucción */ 
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
