@@ -438,7 +438,7 @@ Definimos con un typedef enum el tipo de dato token
 ### Gramatica + Produccion global adicional
 
 ```C++
-   <objetivo> -> <programa> FDT  
+   **<objetivo> -> <programa> FDT  **
    <programa> -> INICIO <listaSentencias> FIN
    <listaSentencias> -> <sentencia> {<sentencia>}
    <sentencia> -> ID ASIGNACION <expresion> PUNTOYCOMA | 
@@ -467,4 +467,7 @@ Tiene las siguientes propiedades:
 
 La idea basica del ASDR es que cada noterminal de la Gramatica Sintactica tiene asociado una **rutina** de analisis sintactico que puede reconocer 
 cualquier secuencia de tokens generada por ese noterminal. Esta rutina se implementa como un procedimiento (lo llamamos **PAS** - **P**rocedimiento de **A**nalisis **S**intactico).
+
+Cada PAS implementa un noterminal de la Gramatica Sintactica. La estructura de cada PAS sigue fielmente el desarrollo del lado derecho de la produccion que implementa,
+dentro de un PAS, tanto los noterminales como los terminales del lado derecho de la produccion deben ser procesados y en el orden en que aparecen. Esto se realiza de la siguiente manera:
 
