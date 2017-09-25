@@ -437,16 +437,16 @@ Definimos con un typedef enum el tipo de dato token
 
 ### Gramatica + Produccion global adicional
 
-
->   <objetivo> -> <programa> FDT  
->   <programa> -> INICIO <listaSentencias> FIN
->   <listaSentencias> -> <sentencia> {<sentencia>}
->   <sentencia> -> ID ASIGNACION <expresion> PUNTOYCOMA | 
->                  LEER parenizquierdo <listaIdentificadores> PARENDERECHO PUNTOYCOMA |
->                  ESCRIBIR PARENIZQUIERDO <listaExpresiones> PARENDERECHO PUNTOYCOMA
->  <listaIdentificadores> -> ID {COMA ID}
->  <listaExpresiones> -> <expresion> {COMA <expresion>}
->  <primaria> -> ID | CONSTANTE |
->                PARENIZQUIERDO <expresion> PARENDERECHO
->  <operadorAditivo> -> uno de SUMA RESTA
-
+```C++
+   <objetivo> -> <programa> FDT  
+   <programa> -> INICIO <listaSentencias> FIN
+   <listaSentencias> -> <sentencia> {<sentencia>}
+   <sentencia> -> ID ASIGNACION <expresion> PUNTOYCOMA | 
+                  LEER parenizquierdo <listaIdentificadores> PARENDERECHO PUNTOYCOMA |
+                  ESCRIBIR PARENIZQUIERDO <listaExpresiones> PARENDERECHO PUNTOYCOMA
+  <listaIdentificadores> -> ID {COMA ID}
+  <listaExpresiones> -> <expresion> {COMA <expresion>}
+  <primaria> -> ID | CONSTANTE |
+                PARENIZQUIERDO <expresion> PARENDERECHO
+  <operadorAditivo> -> uno de SUMA RESTA
+```
