@@ -512,7 +512,39 @@ char nomArchi[TAMNOM];
    return -3;
   }
 ```
+  4. Que el archivo fuente sea extension **.m** correspondiente al Lenguaje Micro. Gramatica que se detalla en la seccion **Parser**
 
+```C++
+ if (nomArchi[l-1] != 'm' || nomArchi[l-2] != '.') 
+  {printf("Extension del archivo incorrecto\n");
+   return -4;
+  }
+```
+  
+ 5. Que el archivo fuente se pueda abrir
+
+```C++
+
+ if ((in = fopen(nomArchi, "r")) == NULL) 
+  {printf("No se pudo abrir archivo fuente\n");
+   return -5;
+  }
+
+```
+
+### Abrimos el archivo
+
+Ya abrimos el archivo en el momento que lo verificamos. La funcion que utilizamos es **fopen**. Tambien utilizaremos la funcion **fclose**. Las explicamos a continuacion:
+
+#### Funcion Fopen
+
+ ```C++
+
+ fopen(nomArchi, "r");
+ 
+ ```
+
+#### Funcion Fopen
 
 
 ## Scanner 
@@ -526,6 +558,8 @@ En este caso, Scanner sera una funcion la cual no recibe nada, sino que debe con
  **recorrer** el archivo de texto (el )
 
 ## Parser
+
+El Parser, esta compuesto por unos procedimientos
 
 ### Lenguaje MICRO
 
