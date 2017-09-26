@@ -11,10 +11,11 @@ typedef enum
 /*Definimos Constantes */
 #define TAMLEX 32+1
 #define TAMNOM 20+1
+#define NOMARCHINST "Instrucciones.txt"
 
 /* Declaraciones Globales*/
 /* Definimos el apuntador a archivo*/
-FILE *in;
+FILE *in, *out;
 
 /* declaraciones */
 token scanner(char * s);
@@ -53,12 +54,12 @@ int main(int argc, char * argv[])
    return -2;
   }
  strcpy(nomArchi, argv[1]);
- l = strlen(nomArchi);
- if (l > TAMNOM) 
+ tam = strlen(nomArchi);
+ if (tam > TAMNOM) 
   {printf("El nombre del archivo fuente es muy extenso\n");
    return -3;
   }
- if (nomArchi[l-1] != 'm' || nomArchi[l-2] != '.') 
+ if (nomArchi[tam-1] != 'm' || nomArchi[tam-2] != '.') 
   {printf("Extension del archivo incorrecto. Debe ser \".m\"\n");
    return -4;
   }
@@ -67,58 +68,14 @@ int main(int argc, char * argv[])
    return -5;
   }
 
+/*Abrimos nuestro archivo que utilizaremos para las instrucciones. Lo abrimos en Escritura (w) */
 
-  /*tokenDevuelto = scanner(argv[1]);
+   out=fopen(NOMARCHINST,"w");
 
-  switch(tokenDevuelto){
-    
-    case INICIO :
-      printf("el token fue: PALABRARESERVADA (->inicio)\n");
-      break;
-    case FIN :
-      printf("el token fue: PALABRARESERVADA (->fin)\n");
-      break;
-    case LEER :
-      printf("el token fue: PALABRARESERVADA (->leer)\n");
-      break;
-    case ESCRIBIR :
-      printf("el token fue: PALABRARESERVADA (->escribir)\n");
-      break;
-    case ID :
-      printf("el token fue: ID\n");
-      break;
-    case CONSTANTE :
-      printf("el token fue: CONSTANTE\n");
-      break;
-    case ASIGNACION :
-      printf("el token fue: ASIGNAR\n");
-      break;
-    case PARENIZQUIERDO :
-      printf("el token fue: PARENIZQUIERDO\n");
-      break;
-    case PARENDERECHO :
-      printf("el token fue: PARENDERECHO\n");
-      break;
-    case COMA :
-      printf("el token fue: COMA\n");
-      break;
-    case PUNTOYCOMA :
-      printf("el token fue: PUNTOYCOMA\n");
-      break;
-    case SUMA :
-      printf("el token fue: SUMA\n");
-      break;
-    case RESTA :
-      printf("el token fue: RESTA\n");
-      break;
-    case ERRORLEXICO :
-      printf("HUBO UN ERROR DE TOKEN\n");
-      break;
-    default:
-      printf("no funciono\n");
-      break;
-  }
-*/
+
+/* Liberamos de memoria los apuntadores a nuestros archivos*/
+ fclose(in);
+ fclose(out);
  return 0;
 
 }
@@ -236,7 +193,7 @@ void Sentencia(void) {
    switch (tok) {
     case ID: /* <sentencia> -> ID := <expresion>; */
       Match(ID); 
-      Match(Asignación>); 
+      Match(ASIGNACION); 
       Expresion(); 
       Match(PUNTOYCOMA); 
       break;
@@ -277,7 +234,7 @@ void OperadorAditivo (void) {
    else
       ErrorSintactico(t);
 }
-void Chequear (string s) {
+void Chequear (char * s) {
   if (! Buscar(s)) { /* ¿la cadena está en la Tabla de Símbolos? No: */
     Colocar(s); /* almacenarla, es el nombre de una variable */
     Generar("Declara", s, "Entera", ""); /* genera la instrucción */ 

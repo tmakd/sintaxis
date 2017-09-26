@@ -475,6 +475,12 @@ El objetivo de nuestro programa es poder compilar archivos fuente en lenguaje MI
 ```
   ./compilar programa.m
 ```
+
+Nuestro compilador debe generar un nuevo archivo ejecutable con **Instrucciones en lenguaje Maquina** .Nosotros representaremos esas instrucciones en un archivo de texto que llamaremos **Instrucciones.txt**
+
+El nombre del mismo lo declaramos como Variable Global en Declaraciones Globales con el nombre de NOMARCHINST, que utilizaremos en nuestro codigo a medida que vayamos generando esas instrucciones.
+
+
 ### Verificaciones
 
 Las verificaciones que debemos realizar en el programa principal son las siguientes:
@@ -568,9 +574,13 @@ Si existe algun error al abrir un archivo, fopen regresa **NULL**
 
 En nuestro caso:
 
-**in** es un apuntador a nuestro archivo. Lo definimos en la seccion Declaraciones Globales como:
+**in** es un apuntador a nuestro archivo fuente. En lenguaje Micro.
+
+**out** es un apuntador al archivo que creamos como Instrucciones.txt en el cual se indicaran las instrucciones que va realizando nuestro compilador al leer el archivo fuente.
+
+ Los definimos en la seccion Declaraciones Globales como:
 ```C++
-  FILE *in;
+  FILE *in, *out;
 ```
 
 Por eso en la verificacion controlamos, que si da **NULL** es porque no se pudo abrir el archivo fuente
@@ -590,6 +600,7 @@ La funcion fclose la realizamos antes de finalizar el programa principal. Lo que
 
 ```C++
    fclose(in);
+   fclose(out);
 ```
 
 
