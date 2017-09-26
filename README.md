@@ -435,7 +435,6 @@ Definimos con un typedef enum el tipo de dato token
 
 ## Parser
 
-### Gramatica + Produccion global adicional
 ### Lenguaje MICRO
 
 Es un lenguaje muy simple que esta diseñado , para poseer un LP concreto sobre el que se pueda analizar la construccion de un compilador basico. Informalmente
@@ -445,10 +444,10 @@ se define de la siguiente manera:
  - Identificadores: Comienzan con una letra y estan compuestos de letras y digitos
  - Constantes: Secuencias de digitos
  - Sentencias:
-  + ASIGNACION        **ID := Expresion**
-  + ENTRADA / SALIDA  **leer(lista de IDs);**
-                                    **escribir(lista de Expresiones);**
-  + Terminan con **;**
+  1. ASIGNACION        **ID := Expresion**
+  2. ENTRADA / SALIDA  **leer(lista de IDs);**
+                      **escribir(lista de Expresiones);**
+  3. Terminan con **;**
  - Cuerpo de un programa delimitado por **inicio** y **fin**
  - **inicio, fin, leer y escribir** son palabras reservadas y deben escribirse en minuscula.
 
