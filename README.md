@@ -435,6 +435,42 @@ Definimos con un typedef enum el tipo de dato token
 
 Fin de la primera entrega
 =========================
+
+### Consignas segunda entrega
+
+#### Tema: Desarrollo de un Compilador para el Lenguaje Micro.
+
+**Fecha de entrega:**  La fecha límite para la entrega del Trabajo Práctico es la fecha del 2º parcial, que será
+establecida por la cátedra oportunamente. Fin de Noviembre
+
+**Objetivo:** Se trata de que los alumnos puedan aplicar en la práctica el uso de las herramientas
+abstractas que se estudian en la materia, como **autómatas finitos** y **gramáticas**. Se espera,
+además, que les sirva para comprender e incorporar los conceptos y conocimientos que
+se desarrollan en el Volumen 2 del libro Sintaxis y Semántica de los Lenguajes, del
+prof. Jorge Daniel Muchnik, ex-director de cátedra de la materia.
+
+**Condiciones generales:** El trabajo práctico será realizado en grupos integrados por 5 ó 6 alumnos sin excepción.
+
+**El Programa Principal:** Debe ser un programa comando, que *recibe como argumento el archivo fuente* en
+lenguaje Micro, y después de *efectuar las validaciones correspondientes* del argumento
+realiza el *análisis* y la *síntesis* del código invocando los módulos apropiados. El archivo
+fuente debe tener extensión .m, y el archivo de salida debe contener las instrucciones
+para la máquina virtual que se describen en el Vol. 2 del libro de Muchnik.
+
+
+**El Analizador Léxico (Scanner):** El analizador léxico es la implementación de un AFD accionador, es decir, que produce
+acciones cuando llega a ciertos estados. Es el encargado de leer el código fuente en
+Lenguaje micro desde el archivo, lexema por lexema, realizar el análisis léxico, y pasar
+los tokens correspondientes al analizador sintáctico.
+
+**El Analizador Sintáctico (Parser)** Este analizador está formado por los Procedimientos de Análisis Sintáctico (PAS), que
+se deben desarrollar a partir de la gramática del lenguaje Micro. También se encarga de
+invocar las rutinas semánticas, realizar la síntesis y enviar las instrucciones para la
+máquina virtual a un archivo de salida (Ejecutable para la máquina virtual).
+ 
+
+
+
 ## Parser
 
 ### Lenguaje MICRO
@@ -662,3 +698,11 @@ void OperadorAditivo (void) {
 ```
 
 Estos fueron los Procedimientos que utilizamos para crear la gramatica
+
+## Herramientas utilizadas
+
+- Compilador ANSI C (gcc)
+- Editor de Textos (SublimeText)
+
+## Conclusiones Finales
+
