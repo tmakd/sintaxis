@@ -433,6 +433,8 @@ Definimos con un typedef enum el tipo de dato token
 + FDT 
 + ERRORLEXICO
 
+Fin de la primera entrega
+=========================
 ## Parser
 
 ### Lenguaje MICRO
