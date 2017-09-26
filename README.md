@@ -532,19 +532,65 @@ char nomArchi[TAMNOM];
 
 ```
 
-### Abrimos el archivo
+### Manejo de Archivos (Pagina 176 del libro ANSI C)
 
 Ya abrimos el archivo en el momento que lo verificamos. La funcion que utilizamos es **fopen**. Tambien utilizaremos la funcion **fclose**. Las explicamos a continuacion:
 
 #### Funcion Fopen
 
+Para que un archivo pueda ser leido o escrito, primero tiene que ser abierto por la funcion de biblioteca **fopen**, la cual toma un nombre externo,
+hace algunos arreglos y negociaciones con el sistema operativo y regresa un **apuntador** que sera usado en posteriores lecturas o escrituras del archivo.
+
+Este apuntador, llamado *apuntador de archivo* apunta a una estructura que contiene informacion acerca del archivo, tal como la ubicacion de un buffer, la 
+posicion de caracter actual ene l buffer; si el archivo esta siendo leido o escrito y si han ocurrido errores o fin de archivo. Los usuarios no necesitan saber los detalles, debido a que las definiciones obtenidas de **stdio.h** incluyen una declaracion de estructura llamada **FILE**. La unica declaracion necesaria para un apuntador de archivo se ejemplifica asi:
+
+```C++
+  FILE *fp;
+  FILE *fopen(char *nombre, char *modo);
+```
+Esto dice que fp es un apuntador a un FILE y fopen regresa un apuntador a FILE. Notese que FILE es un nombre de tipo, como int.
+
+La llamada a fopen en un programa es:
+
+```C++
+fp = fopen(nombre,modo);
+```
+El primer argumento de fopen es una cadenad e caracteres que contiene el nombre del archivo. El segundo argumento es el *modo*, tambien una cadena de aracteres, que indica como se intenta emplear el
+archivo.
+
+Los modos disponibles incluyen:
+
+- Lectura (**"r"**)
+- Escritura (**"w"**) 
+- Añadido (**"a"**) 
+
+Si existe algun error al abrir un archivo, fopen regresa **NULL**
+
+En nuestro caso:
+
+**in** es un apuntador a nuestro archivo. Lo definimos en la seccion Declaraciones Globales como:
+```C++
+  FILE *in;
+```
+
+Por eso en la verificacion controlamos, que si da **NULL** es porque no se pudo abrir el archivo fuente
+
  ```C++
 
- fopen(nomArchi, "r");
- 
+  if ((in = fopen(nomArchi, "r")) == NULL) 
+  {printf("No se pudo abrir archivo fuente\n");
+   return -5;
+  }
+
  ```
 
-#### Funcion Fopen
+#### Funcion Fclose
+
+La funcion fclose la realizamos antes de finalizar el programa principal. Lo que realiza esta funcion es liberar la memoria que apunta nuestro apuntador de arreglo.
+
+```C++
+   fclose(in);
+```
 
 
 ## Scanner 
