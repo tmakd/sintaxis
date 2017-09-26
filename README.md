@@ -514,7 +514,8 @@ void Match(TOKEN t)
 }
 ```
 
-Vemos que utilizamos dos funciones auxiliares llamadas **Proximo Token** y **Error Sintactico** que se explican a continuacion
+Vemos que utilizamos dos funciones auxiliares llamadas **Proximo Token** y **Error Sintactico**. Antes de pasar a explicar como pasar la gramatica a los distintos procedimientos debemos explicar
+las funciones auxiliares que se utilizaran en ellos:
 
 #### Funcion Auxiliar Proximo Token
 
@@ -595,16 +596,57 @@ void Programa (void){
 }
 
 /* <listaSentencias> -> <sentencia> {<sentencia>} */
-void ListaSentencias (void) {
-Sentencia(); /* la primera de la lista de sentencias */ 
-while (1) { /* un ciclo indefinido */
-  switch (ProximoToken()) {
-    case ID: case LEER: case ESCRIBIR: /* detectó token correcto */
-        Sentencia(); /* procesa la secuencia opcional */
+void ListaSentencias (void)
+ {
+  Sentencia();
+  while (1) {
+    switch (ProximoToken()) {
+      case ID: case LEER: case ESCRIBIR: 
+        Sentencia(); 
         break;
       default:
         return;
-      } /* fin switch */
-} 
+    } 
+  } 
 }
+
+void Sentencia(void) {
+   TOKEN tok = ProximoToken();
+   switch (tok) {
+    case ID: /* <sentencia> -> ID := <expresion>; */
+      Match(ID); 
+      Match(Asignación>); 
+      Expresion(); 
+      Match(PUNTOYCOMA); 
+      break;
+    case LEER: /* <sentencia> -> LEER ( <listaIdentificadores> ); */ 
+      Match(LEER); 
+      Match(PARENIZQUIERDO); 
+      ListaIdentificadores(); 
+      Match(PARENDERECHO); 
+      Match(PUNTOYCOMA);
+      break;
+    case ESCRIBIR: /* <sentencia> -> ESCRIBIR (<listaExpresiones>); */ 
+      Match(ESCRIBIR); 
+      Match(PARENIZQUIERDO); 
+      ListaExpresiones(); 
+      Match(PARENDERECHO); 
+      Match(PUNTOYCOMA);
+      break;
+    default:
+      ErrorSintactico(tok); 
+      break;
+} }
+
+/* <expresion> -> <primaria> {<operadorAditivo> <primaria>} */
+void Expresion (void) {
+  TOKEN t;
+  Primaria();
+  for (t = ProximoToken(); t == SUMA || t == RESTA; t = ProximoToken()) {
+     OperadorAditivo();  
+     Primaria();
+   }
+}
+
+
 ```
