@@ -566,7 +566,7 @@ void ErrorLexico()
 
 #### Variable FlagToken
 
-FlagToken es una variable de tipo **global** que nos permite identificar cuando se produce un error sintactico y poder detener el programa y que no se cuelgue.
+FlagToken es una variable de tipo **global** que nos permite identificar cuando se produce un error sintactico y poder detener el programa en el momento oportuno.
 
 La definimos junto con nuestras variables globales en la seccion de Declaraciones Globales de nuestro codigo.
 
@@ -577,7 +577,15 @@ La definimos junto con nuestras variables globales en la seccion de Declaracione
 Que flagToken este en 0, significa que no se produjo ningun error sintactico, por eso en la funcion **ProximoToken** le asignamos la expresion !flagToken. 
 Es decir que si flagToken esta en 0 (FALSO para C), => !flagToken sera verdadero, y entrara al if.
 
-En caso que se produzca un error sintac
 
+### Construccion de los PAS (Pasar a Codigo C la gramatica)
 
-### Tabla de Simbolos
+#### <objetivo> -> <programa> FDT
+
+```C++
+void Objetivo (void) {
+
+  Programa();
+  Match(FDT);
+}
+```
