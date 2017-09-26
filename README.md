@@ -586,7 +586,7 @@ Por eso en la verificacion controlamos, que si da **NULL** es porque no se pudo 
 
 #### Funcion Fclose
 
-La funcion fclose la realizamos antes de finalizar el programa principal. Lo que realiza esta funcion es liberar la memoria que apunta nuestro apuntador de arreglo.
+La funcion fclose la realizamos antes de finalizar el programa principal. Lo que realiza esta funcion es liberar la memoria que utiliza nuestro apuntador de arreglo.
 
 ```C++
    fclose(in);
