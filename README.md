@@ -496,11 +496,54 @@ dentro de un PAS, tanto los noterminales como los terminales del lado derecho de
 
 #### Procedimiento Match
 
-Este procedimiento, invoca al Scanner para obtener el proximo token del flujo de tokens de entrada. Si el token obtenido por el Scanner es t, es decir coincide con el argumento con el cual se invoca a Match, entonces todo es correcto porque hubo concordancia, si es asi, el token es guardado en una variable global llamada **tokenActual**.
+Este procedimiento, es una funcion auxiliar que utilizamos, la cual invoca al Scanner para obtener el proximo token del flujo de tokens de entrada. Si el token obtenido por el Scanner es t, es decir coincide con el argumento con el cual se invoca a Match, entonces todo es correcto porque hubo concordancia, si es asi, el token es guardado en una variable global llamada **tokenActual**.
 
 ```C++
   Match (t);
 ```
 
-En cambio si el token obtenido por el Scanner no coincide con el argumento t, entonces se ha producido un **Error Sintactico**; se debe emitir un mensaje de error y tener en cuenta esta situacion porque el proceso de compilacion ya no puede ser correcto.
+En cambio si el token obtenido por el Scanner no coincide con el argumento t, entonces se ha producido un **Error Sintactico**; se debe emitir un mensaje de error y tener en cuenta esta situacion porque el proceso de compilacion ya no puede ser correcto. Esto lo hacemos de la siguiente manera:
 
+```C++
+void Match(TOKEN t)
+{
+  if (!(t == ProximoToken()))
+  ErrorSintactico();
+  
+ flagToken = 0;
+}
+```
+
+Vemos que utilizamos dos funciones auxiliares llamadas **Proximo Token** y **Error Sintactico** que se explican a continuacion
+
+#### Funcion Auxiliar Proximo Token
+
+Es una funcion auxiliar que utilizamos 
+
+
+```C++
+TOKEN ProximoToken()
+{
+  if (!flagToken)
+  {tokenActual = scanner();
+   if (tokenActual == ERRORLEXICO)
+    ErrorLexico();
+   flagToken = 1;
+   if (tokenActual == ID)
+    {Buscar(buffer, TS, &tokenActual);
+    }
+  }
+ return tokenActual;
+}
+```
+
+#### Funcion Auxiliar Error Sintactico
+
+Es una funcion auxiliar que utilizamos para indicar en pantalla que se produjo un error sintactico, es decir que el token de match no coincide con el proximo token.
+
+```C++
+void ErrorSintactico()
+{
+  printf("Error Sintactico\n");
+}
+```
