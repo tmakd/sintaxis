@@ -15,6 +15,7 @@ typedef enum
 token scanner(char * s);
 char buffer[TAMLEX];
 /*Definimos los PAS*/
+void Match(token t);
 void Objetivo (void);
 void Programa (void);
 void ListaSentencias (void);
@@ -31,7 +32,7 @@ int main(int argc, char * argv[])
   /* verificaciones  */
    if (argc == 1) 
   {
-   printf("Debe ingresar el nombre del archivo fuente (en lenguaje Micro) en LC\n");
+   printf("Debe ingresar el nombre del archivo fuente (extension .m)\n");
    return -1;
   }
  if (argc != 2) 
@@ -185,7 +186,7 @@ void Objetivo (void) {
 
 void Programa (void){
   /*<programa> -> INICIO <listaSentencias> FIN*/
-  Inicio();
+  Match(INICIO);
   listaSentencias();
   Match(FIN);
 }

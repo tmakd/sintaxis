@@ -590,7 +590,7 @@ void Objetivo (void) {
 
 /* <programa> -> INICIO <listaSentencias> FIN */
 void Programa (void){ 
-  Inicio();
+  Match(INICIO);
   listaSentencias();
   Match(FIN);
 }
@@ -657,5 +657,6 @@ void OperadorAditivo (void) {
       ErrorSintactico(t);
 }
 
-
 ```
+
+Estos fueron los Procedimientos que utilizamos para crear la gramatica
