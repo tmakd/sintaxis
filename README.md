@@ -580,7 +580,7 @@ Es decir que si flagToken esta en 0 (FALSO para C), => !flagToken sera verdadero
 
 ### Construccion de los PAS (Pasar a Codigo C la gramatica)
 
-#### <objetivo> -> <programa> FDT
+#### **<objetivo> -> <programa> FDT**
 
 ```C++
 void Objetivo (void) {
