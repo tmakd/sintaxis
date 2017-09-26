@@ -441,7 +441,7 @@ Fin de la primera entrega
 #### Tema: Desarrollo de un Compilador para el Lenguaje Micro.
 
 **Fecha de entrega:**  La fecha límite para la entrega del Trabajo Práctico es la fecha del 2º parcial, que será
-establecida por la cátedra oportunamente. Fin de Noviembre
+establecida por la cátedra oportunamente. (Fin de Noviembre)
 
 **Objetivo:** Se trata de que los alumnos puedan aplicar en la práctica el uso de las herramientas
 abstractas que se estudian en la materia, como **autómatas finitos** y **gramáticas**. Se espera,
@@ -457,7 +457,6 @@ realiza el *análisis* y la *síntesis* del código invocando los módulos aprop
 fuente debe tener extensión .m, y el archivo de salida debe contener las instrucciones
 para la máquina virtual que se describen en el Vol. 2 del libro de Muchnik.
 
-
 **El Analizador Léxico (Scanner):** El analizador léxico es la implementación de un AFD accionador, es decir, que produce
 acciones cuando llega a ciertos estados. Es el encargado de leer el código fuente en
 Lenguaje micro desde el archivo, lexema por lexema, realizar el análisis léxico, y pasar
@@ -469,7 +468,62 @@ invocar las rutinas semánticas, realizar la síntesis y enviar las instruccione
 máquina virtual a un archivo de salida (Ejecutable para la máquina virtual).
  
 
+## Programa Principal
 
+El objetivo de nuestro programa es poder compilar archivos fuente en lenguaje MICRO. Para ello, podremos realizar la siguiente ejecucion:
+
+```
+  ./compilar programa.m
+```
+### Verificaciones
+
+Las verificaciones que debemos realizar en el programa principal son las siguientes:
+
+1. Que la expresion a ejecutar tenga segundo argumento (es decir el nombre del archivo fuente) 
+
+```C++
+   if (argc == 1) 
+  {
+   printf("Debe ingresar el nombre del archivo fuente (en lenguaje Micro) en Linea de Comandos\n");
+   return -1;
+  }
+```
+
+2. Que tenga exactamente dos argumentos (si no tiene dos argumentos es un error)
+
+```C++
+ if (argc != 2) 
+  {
+   printf("Numero incorrecto de argumentos\n");
+   return -2;
+  }
+```
+
+3. Que el archivo fuente escrito en micro no supere un tamaño maximo de caracteres.
+
+*Nota:* TAMNOM es una variable global que definimos en la seccion de Declaraciones Globales.
+
+```C++
+char nomArchi[TAMNOM];
+ strcpy(nomArchi, argv[1]);
+ int l = strlen(nomArchi);
+ if (l > TAMNOM) 
+  {printf("El nombre del archivo fuente es muy extenso\n");
+   return -3;
+  }
+```
+
+
+
+## Scanner 
+
+### Modificaciones del Scanner ya desarrollado
+
+El scanner que desarrollamos en la primera instancia de evaluacion, recibia strings por linea de comandos (LC) y luego recorria el automata finito para
+poder retornar el lexema correspondiente.
+
+En este caso, Scanner sera una funcion la cual no recibe nada, sino que debe consultar el proximo string del archivo fuente. Para ello, debemos explicar 
+ **recorrer** el archivo de texto (el )
 
 ## Parser
 
