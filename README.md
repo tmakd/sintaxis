@@ -594,5 +594,17 @@ void Programa (void){
   Match(FIN);
 }
 
-
+/* <listaSentencias> -> <sentencia> {<sentencia>} */
+void ListaSentencias (void) {
+Sentencia(); /* la primera de la lista de sentencias */ 
+while (1) { /* un ciclo indefinido */
+  switch (ProximoToken()) {
+    case ID: case LEER: case ESCRIBIR: /* detectó token correcto */
+        Sentencia(); /* procesa la secuencia opcional */
+        break;
+      default:
+        return;
+      } /* fin switch */
+} 
+}
 ```
