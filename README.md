@@ -518,19 +518,21 @@ Vemos que utilizamos dos funciones auxiliares llamadas **Proximo Token** y **Err
 
 #### Funcion Auxiliar Proximo Token
 
-Es una funcion auxiliar que utilizamos 
+Es una funcion auxiliar que utilizamos para pedir un nuevo token al **scanner**
 
 
 ```C++
 TOKEN ProximoToken()
 {
   if (!flagToken)
-  {tokenActual = scanner();
-   if (tokenActual == ERRORLEXICO)
+  {
+    tokenActual = scanner();
+    if (tokenActual == ERRORLEXICO)
     ErrorLexico();
    flagToken = 1;
    if (tokenActual == ID)
-    {Buscar(buffer, TS, &tokenActual);
+    {
+      Buscar(buffer, TS, &tokenActual);
     }
   }
  return tokenActual;
@@ -540,6 +542,7 @@ TOKEN ProximoToken()
 #### Funcion Auxiliar Error Sintactico
 
 Es una funcion auxiliar que utilizamos para indicar en pantalla que se produjo un error sintactico, es decir que el token de match no coincide con el proximo token.
+Como todas las funciones, las declaramos en la seccion de Declaraciones Globales
 
 ```C++
 void ErrorSintactico()
@@ -547,3 +550,34 @@ void ErrorSintactico()
   printf("Error Sintactico\n");
 }
 ```
+
+#### Funcion Auxiliar Error Lexico
+
+Es una funcion auxiliar que utilizamos para indicar en pantalla que se produjo un error lexico, es decir que el scanner nos devolvio un lexema no valido.
+Como todas las funciones, las declaramos en la seccion de Declaraciones Globales
+
+```C++
+void ErrorLexico()
+{
+  printf("Error Lexico\n");
+}
+
+```
+
+#### Variable FlagToken
+
+FlagToken es una variable de tipo **global** que nos permite identificar cuando se produce un error sintactico y poder detener el programa y que no se cuelgue.
+
+La definimos junto con nuestras variables globales en la seccion de Declaraciones Globales de nuestro codigo.
+
+```C++
+  int flagToken = 0;
+```
+
+Que flagToken este en 0, significa que no se produjo ningun error sintactico, por eso en la funcion **ProximoToken** le asignamos la expresion !flagToken. 
+Es decir que si flagToken esta en 0 (FALSO para C), => !flagToken sera verdadero, y entrara al if.
+
+En caso que se produzca un error sintac
+
+
+### Tabla de Simbolos
