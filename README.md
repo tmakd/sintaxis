@@ -439,6 +439,7 @@ Definimos con un typedef enum el tipo de dato token
 
 ```C++
    **<objetivo> -> <programa> FDT  **
+   <objetivo> -> <programa> FDT 
    <programa> -> INICIO <listaSentencias> FIN
    <listaSentencias> -> <sentencia> {<sentencia>}
    <sentencia> -> ID ASIGNACION <expresion> PUNTOYCOMA | 
@@ -470,4 +471,20 @@ cualquier secuencia de tokens generada por ese noterminal. Esta rutina se implem
 
 Cada PAS implementa un noterminal de la Gramatica Sintactica. La estructura de cada PAS sigue fielmente el desarrollo del lado derecho de la produccion que implementa,
 dentro de un PAS, tanto los noterminales como los terminales del lado derecho de la produccion deben ser procesados y en el orden en que aparecen. Esto se realiza de la siguiente manera:
+
+
+> Se debe procesar un noterminal <A>, invocamos al PAS correspondiente, por convencion lo llamaremos con el mismo nombre, A. Esta llamada puede ser recursiva y de ahi el nombre de este Analisis Sintactico.
+
+
+> Para procesar un terminal t, invocamos al procedimiento llamado Match con argumento t.
+
+#### Procedimiento Match
+
+Este procedimiento, invoca al Scanner para obtener el proximo token del flujo de tokens de entrada. Si el token obtenido por el Scanner es t, es decir coincide con el argumento con el cual se invoca a Match, entonces todo es correcto porque hubo concordancia, si es asi, el token es guardado en una variable global llamada **tokenActual**.
+
+```C++
+  Match (t);
+```
+
+En cambio si el token obtenido por el Scanner no coincide con el argumento t, entonces se ha producido un **Error Sintactico**; se debe emitir un mensaje de error y tener en cuenta esta situacion porque el proceso de compilacion ya no puede ser correcto.
 
