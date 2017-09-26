@@ -436,9 +436,25 @@ Definimos con un typedef enum el tipo de dato token
 ## Parser
 
 ### Gramatica + Produccion global adicional
+### Lenguaje MICRO
+
+Es un lenguaje muy simple que esta diseñado , para poseer un LP concreto sobre el que se pueda analizar la construccion de un compilador basico. Informalmente
+se define de la siguiente manera:
+ - Unico tipo de dato: entero
+ - Identificadores: Definidos implicitamente y un maximo de 32 caracteres
+ - Identificadores: Comienzan con una letra y estan compuestos de letras y digitos
+ - Constantes: Secuencias de digitos
+ - Sentencias:
+                - ASIGNACION        **ID := Expresion**
+                - ENTRADA / SALIDA  **leer(lista de IDs);**
+                                    **escribir(lista de Expresiones);**
+                - Terminan con **;**
+ - Cuerpo de un programa delimitado por **inicio** y **fin**
+ - **inicio, fin, leer y escribir** son palabras reservadas y deben escribirse en minuscula.
+
+### Gramatica lenguaje MICRO + Produccion global adicional
 
 ```C++
-   **<objetivo> -> <programa> FDT  **
    <objetivo> -> <programa> FDT 
    <programa> -> INICIO <listaSentencias> FIN
    <listaSentencias> -> <sentencia> {<sentencia>}
@@ -451,6 +467,7 @@ Definimos con un typedef enum el tipo de dato token
                 PARENIZQUIERDO <expresion> PARENDERECHO
   <operadorAditivo> -> uno de SUMA RESTA
 ```
+
 
 #### Procedimiento de Analisis Sintactico (PAS)
 
