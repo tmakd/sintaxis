@@ -445,10 +445,10 @@ se define de la siguiente manera:
  - Identificadores: Comienzan con una letra y estan compuestos de letras y digitos
  - Constantes: Secuencias de digitos
  - Sentencias:
-                + ASIGNACION        **ID := Expresion**
-                + ENTRADA / SALIDA  **leer(lista de IDs);**
+  + ASIGNACION        **ID := Expresion**
+  + ENTRADA / SALIDA  **leer(lista de IDs);**
                                     **escribir(lista de Expresiones);**
-                + Terminan con **;**
+  + Terminan con **;**
  - Cuerpo de un programa delimitado por **inicio** y **fin**
  - **inicio, fin, leer y escribir** son palabras reservadas y deben escribirse en minuscula.
 
