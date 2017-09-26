@@ -10,6 +10,11 @@ typedef enum
 
 /*Definimos Constantes */
 #define TAMLEX 32+1
+#define TAMNOM 20+1
+
+/* Declaraciones Globales*/
+/* Definimos el apuntador a archivo*/
+FILE *in;
 
 /* declaraciones */
 token scanner(char * s);
@@ -23,24 +28,47 @@ void Sentencia (void);
 void Expresion (void);
 void OperadorAditivo (void);
 void Chequear(char * s);
-  
+
+/*Funciones Auxiliares*/
+int columna(int c);
+int estadoFinal(int e);
+void ErrorLexico();
+void ErrorSintactico();
+token ProximoToken();
 
 
 int main(int argc, char * argv[]) 
 {
-  token tokenDevuelto;
-  /* verificaciones  */
+  
+   char nomArchi[TAMNOM];
+   int tam;
+  /* verificaciones explicadas en readme.md */
    if (argc == 1) 
   {
    printf("Debe ingresar el nombre del archivo fuente (extension .m)\n");
    return -1;
   }
  if (argc != 2) 
-  {
-   printf("Numero incorrecto de argumentos\n");
+  {printf("Numero incorrecto de argumentos\n");
    return -2;
   }
-  tokenDevuelto = scanner(argv[1]);
+ strcpy(nomArchi, argv[1]);
+ l = strlen(nomArchi);
+ if (l > TAMNOM) 
+  {printf("El nombre del archivo fuente es muy extenso\n");
+   return -3;
+  }
+ if (nomArchi[l-1] != 'm' || nomArchi[l-2] != '.') 
+  {printf("Extension del archivo incorrecto. Debe ser \".m\"\n");
+   return -4;
+  }
+ if ((in = fopen(nomArchi, "r")) == NULL) 
+  {printf("No se pudo abrir archivo fuente\n");
+   return -5;
+  }
+
+
+  /*tokenDevuelto = scanner(argv[1]);
 
   switch(tokenDevuelto){
     
@@ -90,7 +118,7 @@ int main(int argc, char * argv[])
       printf("no funciono\n");
       break;
   }
-
+*/
  return 0;
 
 }
