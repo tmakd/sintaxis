@@ -648,5 +648,14 @@ void Expresion (void) {
    }
 }
 
+/* <operadorAditivo> -> uno de SUMA RESTA */
+void OperadorAditivo (void) {
+   TOKEN t = ProximoToken();
+   if (t == SUMA || t == RESTA)
+      Match(t);
+   else
+      ErrorSintactico(t);
+}
+
 
 ```
