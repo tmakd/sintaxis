@@ -29,12 +29,33 @@ void Sentencia (void);
 void Expresion (void);
 void OperadorAditivo (void);
 void Chequear(char * s);
+int Buscar(char *s);
+int Colocar(char *s);
+int BuscarCentinela(void);
+void ListaIdentificadores(void); 
+void ListaExpresiones(void);
+void Primaria(void);
+void Generar(char * g_tipo_op, char * g_id, char * g_tipo_id, char * g_algo);
+
+
+typedef struct registro_TS {
+  token lexema;
+   char *nombre;} tipo_ts;
+
+
+/* Tabla de simbolos*/
+/* primeros 4 elementos es la palabra reservada. Columna 1: token, columna 2: texto*/
+tipo_ts TS[1000]={ {INICIO,"inicio"},
+                  {FIN,"fin"},
+                  {LEER,"leer"},
+                  {ESCRIBIR,"escribir"},
+                  {99,"$"} };
 
 /*Funciones Auxiliares*/
 int columna(int c);
 int estadoFinal(int e);
 void ErrorLexico();
-void ErrorSintactico();
+void ErrorSintactico(token tok);
 token ProximoToken();
 
 
@@ -172,7 +193,7 @@ void Objetivo (void) {
 void Programa (void){
   /*<programa> -> INICIO <listaSentencias> FIN*/
   Match(INICIO);
-  listaSentencias();
+  ListaSentencias();
   Match(FIN);
 }
 void ListaSentencias (void) {
@@ -234,26 +255,82 @@ void OperadorAditivo (void) {
    else
       ErrorSintactico(t);
 }
+
 void Chequear (char * s) {
-  if (! Buscar(s)) { /* ¿la cadena está en la Tabla de Símbolos? No: */
+  if ( Buscar(s)==0) { /* ¿la cadena está en la Tabla de Símbolos? No: */
     Colocar(s); /* almacenarla, es el nombre de una variable */
     Generar("Declara", s, "Entera", ""); /* genera la instrucción */ 
 }
 }
 
+int Buscar(char *s)
+{
+  int i=0;
+  while(!strcmp(TS[i].nombre,"$"))
+  {
+    if(strcmp(TS[i].nombre,s))
+    {
+      return 1; // encontro
+    }
+    i++;
+  }
+  return 0; // no encontro
+}
 
 
+int Colocar(char *s) // deberia ser void y no lo toma.
+{
+  int pos;
+  pos = BuscarCentinela();
+
+  TS[pos].lexema=ID;
+  TS[pos].nombre=s;
+  TS[pos+1].lexema=99;
+  TS[pos+1].nombre="$";
+
+  return 0;
+}
+
+int BuscarCentinela ()
+{
+  int pos = 0;
+  while(!strcmp(TS[pos].nombre,"$")) pos++;
+  return pos; 
+}
 
 
+void ErrorLexico(){
+  printf("Error Lexico\n");
+};
+void ErrorSintactico(token tok){
+  printf("Error Sintactico\n");
+};
 
 
+//completar
+void Generar(char * a,char * b,char * c,char * d){
 
+};
 
+void ListaExpresiones(void){
+  
+};
 
+void ListaIdentificadores(void){
+  
+};
 
+void Match (token tok){
 
+};
 
+void Primaria(void){
+  
+};
 
+token ProximoToken(void){
+ return ID;
+};
 
 
 
