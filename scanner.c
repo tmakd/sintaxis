@@ -23,6 +23,7 @@ void Sentencia (void);
 void Expresion (void);
 void OperadorAditivo (void);
 void Chequear(char * s);
+int Buscar(char* s);
   
 
 
@@ -208,7 +209,7 @@ void Sentencia(void) {
    switch (tok) {
     case ID: /* <sentencia> -> ID := <expresion>; */
       Match(ID); 
-      Match(Asignación>); 
+      Match(ASIGNACION); 
       Expresion(); 
       Match(PUNTOYCOMA); 
       break;
@@ -249,7 +250,7 @@ void OperadorAditivo (void) {
    else
       ErrorSintactico(t);
 }
-void Chequear (string s) {
+void Chequear (char * s) {
   if (! Buscar(s)) { /* ¿la cadena está en la Tabla de Símbolos? No: */
     Colocar(s); /* almacenarla, es el nombre de una variable */
     Generar("Declara", s, "Entera", ""); /* genera la instrucción */ 
