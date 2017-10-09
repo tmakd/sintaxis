@@ -43,8 +43,8 @@ int Buscar(char *s);
 int Colocar(char *s);
 int BuscarCentinela(void);
 void ListaIdentificadores(void); 
-void Identificador(*REG_EXPRESION);
-void ProcesarId(void);
+void Identificador(REG_EXPRESION* registro);
+REG_EXPRESION ProcesarId(void);
 void ListaExpresiones(void);
 void Primaria(void);
 void Generar(char * g_tipo_op, char * g_id, char * g_tipo_id, char * g_algo);
@@ -115,8 +115,9 @@ int main(int argc, char * argv[])
 
 }
 
-token scanner(char * s)
+token scanner()
 {
+  
   int tabla[15][13]={ { 1, 3, 5, 6, 7, 8, 9,10,11,14,13, 0,14 },
 					 { 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 },
 					 {14,14,14,14,14,14,14,14,14,14,14,14,14 },
@@ -338,7 +339,7 @@ void ListaIdentificadores(void){
   REG_EXPRESION reg;
   Identificador(&reg);
   Leer(reg);
-  for (t == ProximoToken(); t == COMA ; t = ProximoToken())
+  for (t = ProximoToken(); t == COMA ; t = ProximoToken())
   {
     Match(COMA);
     Identificador(&reg);
@@ -357,7 +358,7 @@ REG_EXPRESION ProcesarId (){
 
 
 void Match (token tok){
-  if (!(tok == ProximoToken())) ErrorSintactico();
+  if (!(tok == ProximoToken())) ErrorSintactico(tok);
   flagToken = 0;
 };
 
