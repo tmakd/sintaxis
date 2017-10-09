@@ -26,8 +26,9 @@ typedef struct {
 FILE *in, *out;
 
 /* declaraciones */
-token scanner(char * s);
+token scanner();
 char buffer[TAMLEX];
+char s [TAMLEX];
 token tokenActual;
 int flagToken =0;
 /*Definimos los PAS*/
@@ -48,6 +49,7 @@ REG_EXPRESION ProcesarId(void);
 void ListaExpresiones(void);
 void Primaria(void);
 void Generar(char * g_tipo_op, char * g_id, char * g_tipo_id, char * g_algo);
+void Leer(REG_EXPRESION reg);
 
 
 typedef struct registro_TS {
@@ -332,6 +334,10 @@ void ListaExpresiones(void){
 
 };
 
+void Leer(REG_EXPRESION reg){
+
+};
+
 
 
 void ListaIdentificadores(void){
@@ -374,7 +380,7 @@ token ProximoToken(void){
   flagToken =1;
   if(tokenActual == ID)
   {
-    Buscar(buffer,TS,&tokenActual);
+    Buscar(buffer);
   }
  }
  return tokenActual;
