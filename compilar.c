@@ -2,16 +2,24 @@
 #include <string.h>
 #include <ctype.h>
 
+/*Definimos Constantes */
+#define TAMLEX 32+1
+#define TAMNOM 20+1
+#define NOMARCHINST "Instrucciones.txt"
+
 /* definicion de tipos */
 typedef enum
 {INICIO, FIN, LEER, ESCRIBIR, ID, CONSTANTE, PARENIZQUIERDO,
  PARENDERECHO, PUNTOYCOMA, COMA, ASIGNACION, SUMA, RESTA, FDT, ERRORLEXICO
 } token;
 
-/*Definimos Constantes */
-#define TAMLEX 32+1
-#define TAMNOM 20+1
-#define NOMARCHINST "Instrucciones.txt"
+typedef struct {
+  token clase;
+  char nombre[TAMLEX];
+  int valor;
+} REG_EXPRESION;
+
+
 
 /* Declaraciones Globales*/
 /* Definimos el apuntador a archivo*/
@@ -20,6 +28,8 @@ FILE *in, *out;
 /* declaraciones */
 token scanner(char * s);
 char buffer[TAMLEX];
+token tokenActual;
+int flagToken =0;
 /*Definimos los PAS*/
 void Match(token t);
 void Objetivo (void);
@@ -33,6 +43,8 @@ int Buscar(char *s);
 int Colocar(char *s);
 int BuscarCentinela(void);
 void ListaIdentificadores(void); 
+void Identificador(*REG_EXPRESION);
+void ProcesarId(void);
 void ListaExpresiones(void);
 void Primaria(void);
 void Generar(char * g_tipo_op, char * g_id, char * g_tipo_id, char * g_algo);
@@ -50,6 +62,8 @@ tipo_ts TS[1000]={ {INICIO,"inicio"},
                   {LEER,"leer"},
                   {ESCRIBIR,"escribir"},
                   {99,"$"} };
+
+
 
 /*Funciones Auxiliares*/
 int columna(int c);
@@ -313,15 +327,38 @@ void Generar(char * a,char * b,char * c,char * d){
 };
 
 void ListaExpresiones(void){
-  
+  Expresion(); /* la primera de la lista de expresiones */ 
+
 };
+
+
 
 void ListaIdentificadores(void){
-  
+  token t;
+  REG_EXPRESION reg;
+  Identificador(&reg);
+  Leer(reg);
+  for (t == ProximoToken(); t == COMA ; t = ProximoToken())
+  {
+    Match(COMA);
+    Identificador(&reg);
+    Leer(reg);
+  }
+
 };
 
-void Match (token tok){
+REG_EXPRESION ProcesarId (){
+  REG_EXPRESION t;
+  Chequear(buffer);
+  t.clase = ID;
+  strcpy(t.nombre, buffer);
+  return t;
+}
 
+
+void Match (token tok){
+  if (!(tok == ProximoToken())) ErrorSintactico();
+  flagToken = 0;
 };
 
 void Primaria(void){
@@ -329,11 +366,24 @@ void Primaria(void){
 };
 
 token ProximoToken(void){
- return ID;
+ if (!flagToken)
+ {
+  tokenActual = scanner();
+  if(tokenActual == ERRORLEXICO) ErrorLexico();
+  flagToken =1;
+  if(tokenActual == ID)
+  {
+    Buscar(buffer,TS,&tokenActual);
+  }
+ }
+ return tokenActual;
 };
 
-
-
+void Identificador(REG_EXPRESION * presul)
+{
+  Match(ID);
+  * presul = ProcesarId();
+}
 
 
 
