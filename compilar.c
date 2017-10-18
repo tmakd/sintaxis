@@ -19,7 +19,17 @@ typedef struct {
   int valor;
 } REG_EXPRESION;
 
+typedef struct registro_TS {
+  token lexema;
+   char nombre[TAMLEX];} tipo_ts;
 
+/* Tabla de simbolos*/
+/* primeros 4 elementos es la palabra reservada. Columna 1: token, columna 2: texto*/
+tipo_ts TS[1000]={{INICIO,"inicio"},
+                  {FIN,"fin"},
+                  {LEER,"leer"},
+                  {ESCRIBIR,"escribir"},
+                  {99,"$"} };
 
 /* Declaraciones Globales*/
 /* Definimos el apuntador a archivo*/
@@ -28,42 +38,40 @@ FILE *in, *out;
 /* declaraciones */
 token scanner();
 char buffer[TAMLEX];
-char s [TAMLEX];
+char s [TAMLEX]; /* no es necesario */
 token tokenActual;
 int flagToken =0;
 /*Definimos los PAS*/
-void Match(token t);
 void Objetivo (void);
 void Programa (void);
 void ListaSentencias (void);
 void Sentencia (void);
-void Expresion (void);
-void OperadorAditivo (void);
-void Chequear(char * s);
-int Buscar(char *s);
-int Colocar(char *s);
-int BuscarCentinela(void);
 void ListaIdentificadores(void); 
-void Identificador(REG_EXPRESION* registro);
-REG_EXPRESION ProcesarId(void);
+void Identificador(REG_EXPRESION* presul);
 void ListaExpresiones(void);
-void Primaria(void);
+void Expresion(REG_EXPRESION * presul);
+void Primaria(REG_EXPRESION * presul);
+void OperadorAditivo(char * presul);
+REG_EXPRESION ProcesarCte(void);
+REG_EXPRESION ProcesarId(void);
+char * ProcesarOp(void);
+void Leer(REG_EXPRESION in);
+void Escribir(REG_EXPRESION out);
+REG_EXPRESION GenInfijo(REG_EXPRESION e1, char * op, REG_EXPRESION e2);
+void Match(token t);
+int BuscarCentinela(void);
 void Generar(char * g_tipo_op, char * g_id, char * g_tipo_id, char * g_algo);
-void Leer(REG_EXPRESION reg);
+char * Extraer(REG_EXPRESION * preg);
+int Buscar(char * id, tipo_ts * TS, token * t);
+void Colocar(char * id, tipo_ts * TS);
+void Chequear(char * s);
+void Comenzar(void);
+void Terminar(void);
+void Asignar(REG_EXPRESION izq, REG_EXPRESION der);
 
 
-typedef struct registro_TS {
-  token lexema;
-   char *nombre;} tipo_ts;
 
 
-/* Tabla de simbolos*/
-/* primeros 4 elementos es la palabra reservada. Columna 1: token, columna 2: texto*/
-tipo_ts TS[1000]={ {INICIO,"inicio"},
-                  {FIN,"fin"},
-                  {LEER,"leer"},
-                  {ESCRIBIR,"escribir"},
-                  {99,"$"} };
 
 
 
@@ -109,7 +117,7 @@ int main(int argc, char * argv[])
 
    out=fopen(NOMARCHINST,"w");
 
-
+  Objetivo();
 /* Liberamos de memoria los apuntadores a nuestros archivos*/
  fclose(in);
  fclose(out);
@@ -142,7 +150,7 @@ token scanner()
  
  do
   {
-   car = s[i];
+   car = fgetc(in);;
    col = columna(car);
    estado = tabla[estado][col];
    if (col != 11)
@@ -154,16 +162,14 @@ token scanner()
  switch (estado) 
   {case 2: if (col != 11) 
             {
+             ungetc(car, in);
              buffer[i-1] = '\0';
-             if(strcmp("inicio",buffer)== 0) return INICIO;
-             if(strcmp("fin",buffer)== 0) return FIN;
-             if(strcmp("leer",buffer)== 0) return LEER;
-             if(strcmp("escribir",buffer)== 0) return ESCRIBIR;
 		    }
 		   return ID;
    case 4: if (col != 11)
             {
-			 buffer[i-1] = '\0';
+             ungetc(car, in); 
+			       buffer[i-1] = '\0';
 			}
 		   return CONSTANTE;
    case 5: return SUMA;
@@ -205,10 +211,12 @@ void Objetivo (void) {
 /* <objetivo> -> <programa> FDT */
   Programa();
   Match(FDT);
+  Terminar();
 }
 
 void Programa (void){
   /*<programa> -> INICIO <listaSentencias> FIN*/
+  Comenzar();
   Match(INICIO);
   ListaSentencias();
   Match(FIN);
@@ -228,11 +236,13 @@ while (1) { /* un ciclo indefinido */
 }
 void Sentencia(void) {
    token tok = ProximoToken();
+   REG_EXPRESION izq, der;
    switch (tok) {
     case ID: /* <sentencia> -> ID := <expresion>; */
-      Match(ID); 
+      Identificador(&izq);
       Match(ASIGNACION); 
-      Expresion(); 
+      Expresion(&der);
+      Asignar(izq, der);
       Match(PUNTOYCOMA); 
       break;
     case LEER: /* <sentencia> -> LEER ( <listaIdentificadores> ); */ 
@@ -254,58 +264,81 @@ void Sentencia(void) {
       break;
 } }
 
-void Expresion (void) {
+
+void Expresion(REG_EXPRESION * presul)
 /* <expresion> -> <primaria> {<operadorAditivo> <primaria>} */
-  token t;
-  Primaria();
-  for (t = ProximoToken(); t == SUMA || t == RESTA; t = ProximoToken()) {
-     OperadorAditivo();  
-     Primaria();
-   }
+{
+  REG_EXPRESION operandoIzq, operandoDer;
+ char op[TAMLEX];
+ token t;
+ 
+ Primaria(&operandoIzq);
+ for (t = ProximoToken(); t == SUMA || t == RESTA; t = ProximoToken())
+  {OperadorAditivo(op);
+   Primaria(&operandoDer);
+   operandoIzq = GenInfijo(operandoIzq, op, operandoDer);
+  }
+ *presul = operandoIzq;
 }
 
-void OperadorAditivo (void) {
+void OperadorAditivo (char * presul) {
 /* <operadorAditivo> -> uno de SUMA RESTA */
    token t = ProximoToken();
    if (t == SUMA || t == RESTA)
-      Match(t);
+      {
+        Match(t);
+        strcpy(presul, ProcesarOp());
+      }
    else
       ErrorSintactico(t);
 }
 
-void Chequear (char * s) {
-  if ( Buscar(s)==0) { /* ¿la cadena está en la Tabla de Símbolos? No: */
-    Colocar(s); /* almacenarla, es el nombre de una variable */
-    Generar("Declara", s, "Entera", ""); /* genera la instrucción */ 
-}
-}
-
-int Buscar(char *s)
-{
-  int i=0;
-  while(!strcmp(TS[i].nombre,"$"))
-  {
-    if(strcmp(TS[i].nombre,s))
-    {
-      return 1; // encontro
-    }
-    i++;
+void Chequear(char * s)
+{/* Si la cadena No esta en la Tabla de Simbolos la agrega, y si es el nombre de una variable genera la instruccion */
+ token t;
+ 
+ if (!Buscar(s, TS, &t))
+  {Colocar(s, TS);
+   Generar("Declara", s, "Entera", "");
   }
-  return 0; // no encontro
+}
+
+int Buscar(char * id, tipo_ts * TS, token * t)
+{/* Determina si un identificador esta en la TS */
+ int i = 0;
+ 
+ while (strcmp("$", TS[i].nombre))
+  {if ( !strcmp(id, TS[i].nombre) )
+    {*t = TS[i].lexema;
+     return 1;
+  }
+   i++;
+  }
+ return 0;
 }
 
 
-int Colocar(char *s) // deberia ser void y no lo toma.
-{
-  int pos;
-  pos = BuscarCentinela();
+void Colocar(char * id, tipo_ts * TS)
+{/* Agrega un identificador a la TS */
+ int i = 4;
 
-  TS[pos].lexema=ID;
-  TS[pos].nombre=s;
-  TS[pos+1].lexema=99;
-  TS[pos+1].nombre="$";
+ while (strcmp("$", TS[i].nombre)) 
+  i++;
+  
+ if (i < 999)
+  {strcpy(TS[i].nombre, id);
+   TS[i].lexema = ID;
+   strcpy(TS[++i].nombre, "$");
+  }
+}
 
-  return 0;
+void Comenzar(void)
+{/* Inicializaciones Semanticas */
+}
+
+void Terminar(void)
+{/* Genera la instruccion para terminar la ejecucion del programa */
+ Generar("Detiene", "", "", "");
 }
 
 int BuscarCentinela ()
@@ -324,21 +357,74 @@ void ErrorSintactico(token tok){
 };
 
 
-//completar
-void Generar(char * a,char * b,char * c,char * d){
+//completo
+void Generar(char * co, char * a, char * b, char * c)
+{char linea[30];
 
-};
+ sprintf(linea,"%s %s%c%s%c%s\n", co, a, ',', b, ',', c);
+ fputs(linea,out);
+}
 
-void ListaExpresiones(void){
-  Expresion(); /* la primera de la lista de expresiones */ 
+char * Extraer(REG_EXPRESION * preg)
+{/* Retorna la cadena del registro semantico */
+ return preg->nombre;
+}
 
-};
+void Asignar(REG_EXPRESION izq, REG_EXPRESION der)
+{/* Genera la instruccion para la asignacion */
+ Generar("Almacena", Extraer(&der), izq.nombre, "");
+}
 
-void Leer(REG_EXPRESION reg){
+void ListaExpresiones(void)
+{ token tok;
+ REG_EXPRESION reg;
+ Expresion(&reg);
+ Escribir(reg);
+ for (tok = ProximoToken(); tok == COMA; tok = ProximoToken())
+  {Match(COMA);
+   Expresion(&reg);
+   Escribir(reg);
+  }
+}
 
-};
+void Leer(REG_EXPRESION in)
+{/* Genera la instruccion para leer */
+ Generar("Read", in.nombre, "Entera", "");
+}
 
+void Escribir(REG_EXPRESION out)
+{/* Genera la instruccion para escribir */
+ Generar("Write", Extraer(&out), "Entera", "");
+}
 
+REG_EXPRESION GenInfijo(REG_EXPRESION e1, char * op, REG_EXPRESION e2)
+{/* Genera la instruccion para una operacion infija y construye un registro semantico con el resultado */
+ REG_EXPRESION reg;
+ static unsigned int numTemp = 1;
+ char cadTemp[TAMLEX] ="Temp&";
+ char cadNum[TAMLEX];
+ char cadOp[TAMLEX];
+ 
+ if (op[0] == '-' ) 
+  strcpy(cadOp, "Restar");
+ 
+ if (op[0] == '+' ) 
+  strcpy(cadOp, "Sumar");
+  
+ sprintf(cadNum, "%d", numTemp);
+ numTemp++;
+ strcat(cadTemp, cadNum);
+ if ( e1.clase == ID) 
+  Chequear(Extraer(&e1));
+  
+ if ( e2.clase == ID) 
+  Chequear(Extraer(&e2));
+  
+ Chequear(cadTemp);
+ Generar(cadOp, Extraer(&e1), Extraer(&e2), cadTemp);
+ strcpy(reg.nombre, cadTemp);
+ return reg;
+}
 
 void ListaIdentificadores(void){
   token t;
@@ -354,7 +440,17 @@ void ListaIdentificadores(void){
 
 };
 
-REG_EXPRESION ProcesarId (){
+REG_EXPRESION ProcesarCte(void)
+{/* Convierte cadena que representa numero a numero entero y construye un registro semantico */
+ REG_EXPRESION reg;
+ 
+ reg.clase = CONSTANTE;
+ strcpy(reg.nombre, buffer);
+ sscanf(buffer, "%d", &reg.valor);
+ return reg;
+}
+
+REG_EXPRESION ProcesarId (void){
   REG_EXPRESION t;
   Chequear(buffer);
   t.clase = ID;
@@ -362,29 +458,45 @@ REG_EXPRESION ProcesarId (){
   return t;
 }
 
+char * ProcesarOp(void)
+{/* Declara OP y construye el correspondiente registro semantico */
+ return buffer;
+}
 
 void Match (token tok){
   if (!(tok == ProximoToken())) ErrorSintactico(tok);
   flagToken = 0;
 };
 
-void Primaria(void){
-  
-};
+void Primaria(REG_EXPRESION * presul)
+{token tok = ProximoToken();
 
-token ProximoToken(void){
- if (!flagToken)
- {
-  tokenActual = scanner();
-  if(tokenActual == ERRORLEXICO) ErrorLexico();
-  flagToken =1;
-  if(tokenActual == ID)
-  {
-    Buscar(buffer);
+ switch (tok)
+  {case ID: Identificador(presul);
+      break;
+   case CONSTANTE: Match(CONSTANTE);
+             *presul = ProcesarCte();
+             break;
+   case PARENIZQUIERDO: Match(PARENIZQUIERDO);
+                  Expresion(presul);
+                  Match(PARENDERECHO);
+                  break;
+   default: return;
   }
- }
+}
+
+token ProximoToken(void)
+{if (!flagToken)
+  {tokenActual = scanner();
+   if (tokenActual == ERRORLEXICO)
+    ErrorLexico();
+   flagToken = 1;
+   if (tokenActual == ID)
+    {Buscar(buffer, TS, &tokenActual);
+    }
+  }
  return tokenActual;
-};
+}
 
 void Identificador(REG_EXPRESION * presul)
 {
