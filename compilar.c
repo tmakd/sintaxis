@@ -5,7 +5,6 @@
 /*Definimos Constantes */
 #define TAMLEX 32+1
 #define TAMNOM 20+1
-#define NOMARCHINST "Instrucciones.txt"
 
 /* definicion de tipos */
 typedef enum
@@ -87,20 +86,28 @@ int main(int argc, char * argv[])
 {
   
    char nomArchi[TAMNOM];
-   int tam;
+   char NOMARCHINST[TAMNOM];
+   int tam, tam2;
   /* verificaciones explicadas en readme.md */
    if (argc == 1) 
   {
-   printf("Debe ingresar el nombre del archivo fuente (extension .m)\n");
+   printf("Debe ingresar el nombre del archivo fuente (extension .m) y del archivo de salida (extension .txt)\n");
    return -1;
   }
- if (argc != 2) 
+   if (argc == 2) 
+  {
+   printf("Debe ingresar el nombre del archivo de salida (con extension .txt)\n");
+   return -1;
+  }
+ if (argc != 3) 
   {printf("Numero incorrecto de argumentos\n");
    return -2;
   }
  strcpy(nomArchi, argv[1]);
+ strcpy(NOMARCHINST, argv[2]);
  tam = strlen(nomArchi);
- if (tam > TAMNOM) 
+ tam2 = strlen(NOMARCHINST);
+ if (tam > TAMNOM && tam2 > TAMNOM) 
   {printf("El nombre del archivo fuente es muy extenso\n");
    return -3;
   }
@@ -389,12 +396,12 @@ void ListaExpresiones(void)
 
 void Leer(REG_EXPRESION in)
 {/* Genera la instruccion para leer */
- Generar("Read", in.nombre, "Entera", "");
+ Generar("Read", in.nombre, "", "");
 }
 
 void Escribir(REG_EXPRESION out)
 {/* Genera la instruccion para escribir */
- Generar("Write", Extraer(&out), "Entera", "");
+ Generar("Write", Extraer(&out), "", "");
 }
 
 REG_EXPRESION GenInfijo(REG_EXPRESION e1, char * op, REG_EXPRESION e2)
@@ -503,7 +510,3 @@ void Identificador(REG_EXPRESION * presul)
   Match(ID);
   * presul = ProcesarId();
 }
-
-
-
-
